@@ -4,24 +4,27 @@ const api = axios.create({
   baseURL: "https://api.github.com"
 })
 
-export async function getUserInfo(username: string) {
-  const response = await api.get(`/users/${username}`)
+const USERNAME = import.meta.env.VITE_USERNAME
+const REPO = import.meta.env.VITE_REPO
+
+export async function getUserInfo() {
+  const response = await api.get(`/users/${USERNAME}`)
 
   return response.data
 }
 
-export async function getRepoIssues(username: string, repo: string, query?: string) {
+export async function getRepoIssues(query = "") {
   const response = await api.get(`/search/issues`, {
     params: {
-      q: `repo:${username}/${repo} ${query}`
+      q: `repo:${USERNAME}/${REPO} ${query}`
     }
   })
 
   return response.data
 }
 
-export async function getIssue(username: string, repo: string, issueId: number) {
-  const response = await api.get(`/repos/${username}/${repo}/issues/${issueId}`)
+export async function getIssue(issueId: number) {
+  const response = await api.get(`/repos/${USERNAME}/${REPO}/issues/${issueId}`)
 
   return response.data
 }

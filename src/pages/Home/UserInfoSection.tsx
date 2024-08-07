@@ -1,37 +1,43 @@
+import { useContext } from "react";
 import { IArrowUpRightFromSquare, IBuilding, IGithub, IUserGroup } from "../../assets/icons";
+import { githubContext } from "../../contexts/GithubContext";
 
 export default function UserInfoSection() {
+  const { userData } = useContext(githubContext)
+
   return (
     <section className="min-h-[13.25rem] rounded-base flex justify-center align-center gap-8 p-8 bg-base-profile">
       <aside>
-        <img src="https://github.com/bruno-borges-2001.png" className="rounded-lg aspect-square max-w-[148px]" />
+        <img src={userData?.avatar_url} className="rounded-lg aspect-square max-w-[148px]" />
       </aside>
       <div className="flex flex-1 flex-col gap-2">
         <header className="flex justify-between items-start">
-          <h1 className="font-bold text-2xl leading-[1.3] text-base-title">Bruno Borges</h1>
+          <h1 className="font-bold text-2xl leading-[1.3] text-base-title">{userData?.name}</h1>
 
-          <a href="https://github.com/bruno-borges-2001" target="_blank" className="text-blue font-bold text-xs hover:underline flex gap-2 items-center">
+          <a href={userData?.html_url} target="_blank" className="text-blue font-bold text-xs hover:underline flex gap-2 items-center">
             GITHUB
             <IArrowUpRightFromSquare height={12} width={12} />
           </a>
         </header>
 
-        <p>In cillum quis consectetur amet veniam qui magna esse excepteur fugiat elit do officia eiusmod. Aute non in adipisicing eiusmod ut. Aliqua irure amet cillum est. Minim labore et pariatur eu.</p>
+        <p>{userData?.bio}</p>
 
         <footer className="flex flex-wrap gap-6 items-center mt-auto">
           <article className="flex items-center gap-2 text-base-subtitle whitespace-nowrap">
             <IGithub className="h-[18px] w-[18px] text-base-label" />
-            bruno-borges-2001
+            {userData?.login}
           </article>
 
-          <article className="flex items-center gap-2 text-base-subtitle whitespace-nowrap">
-            <IBuilding className="h-[18px] w-[18px] text-base-label" />
-            Fetchly
-          </article>
+          {userData?.company && (
+            <article className="flex items-center gap-2 text-base-subtitle whitespace-nowrap">
+              <IBuilding className="h-[18px] w-[18px] text-base-label" />
+              {userData.company}
+            </article>
+          )}
 
           <article className="flex items-center gap-2 text-base-subtitle whitespace-nowrap">
             <IUserGroup className="h-[18px] w-[18px] text-base-label" />
-            1 seguidor
+            {userData?.followers} seguidor{userData?.followers === 1 ? '' : 'es'}
           </article>
         </footer>
       </div>
